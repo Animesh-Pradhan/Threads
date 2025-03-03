@@ -24,3 +24,31 @@ export async function createThread({ text, author, communityId, path }: Params) 
         throw new Error(`Failed to add post: ${error.message}`);
     }
 }
+
+export async function fetchPosts(pageNumber = 1, pageSize = 20) {
+    try {
+        connectToDB();
+        const postsToSkip = (pageNumber - 1) * pageSize
+
+        const postsQuery = Thread.find({ parentId: { $in: [null, undefined] } })
+            .sort({ createdAt: "desc" })
+            .skip(postsToSkip)
+            .limit(pageSize)
+            .populate({ path: "author", model: User })
+            .populate({
+                path: "children",
+                populate: { path: "author", model: User, select: "_id name parentId image" }
+            })
+
+        const totalPostsCount = await Thread.countDocuments({ parentId: { $in: [null, undefined] } })
+
+        const posts = await postsQuery.exec();
+
+        const isNext = totalPostsCount > (postsToSkip + posts.length)
+
+        return { posts, isNext };
+    } catch (error: any) {
+        throw new Error(`Failed to fetch post: ${error.message}`);
+    }
+
+}
