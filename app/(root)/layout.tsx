@@ -30,7 +30,7 @@ export default function RootLayout({
               <Navbar />
               <Flex h={'calc(100vh - 60px)'} w={'100%'} overflowY={'auto'}>
                 <LeftSidebar />
-                <Box w="100%">
+                <Box w="100%" p={4}>
                   {children}
                 </Box>
                 <RightSidebar />

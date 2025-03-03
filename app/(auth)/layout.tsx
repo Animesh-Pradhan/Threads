@@ -1,7 +1,10 @@
 import { Provider } from "@/components/ui/provider"
+import { Box } from "@chakra-ui/react"
 import { ClerkProvider } from "@clerk/nextjs"
 import { Metadata } from "next"
 import { Inter } from "next/font/google"
+
+import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +23,9 @@ export default function RootLayout({
             <html lang="en" suppressHydrationWarning>
                 <body className={inter.className}>
                     <Provider>
-                        {children}
+                        <Box bg={'#000'} color={'#fff'}>
+                            {children}
+                        </Box>
                     </Provider>
                 </body>
             </html>

@@ -5,14 +5,13 @@ import React from 'react'
 
 import { sidebarLinks } from "../../constants/index"
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter } from 'next/navigation';
 import { SignedIn, SignOutButton } from '@clerk/nextjs';
 
 
 const LeftSidebar: React.FC = () => {
     const pathname = usePathname();
-    // const router = useRouter();
+    const router = useRouter();
 
     return (
         <Flex display={{ base: 'none', md: 'flex' }} flexDir={'column'} justifyContent={'space-between'} pt={'20px'} w={'full'} flex={1} bg={'#1c1c1c'}>
@@ -33,8 +32,8 @@ const LeftSidebar: React.FC = () => {
 
             <Box px={6} mt={2}>
                 <SignedIn>
-                    <SignOutButton signOutOptions={{ redirectUrl: "/sign-in" }}>
-                        <Flex gap={2} p={'10px 12px'} alignItems={'center'} cursor={'pointer'}>
+                    <SignOutButton redirectUrl='/sign-in'>
+                        <Flex onClick={() => router.push('/sign-in')} gap={2} p={'10px 12px'} alignItems={'center'} cursor={'pointer'}>
                             <Image src='./assets/logout.svg' alt='logout' w={'24px'} h={'24px'} />
                             <Text display={{ base: 'none', lg: 'block' }} fontSize={'14px'} color={"#b4b4b4"}>Logout</Text>
                         </Flex>
